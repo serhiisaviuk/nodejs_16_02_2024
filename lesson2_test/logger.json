@@ -1,0 +1,4 @@
+{
+  "logLevel": "WARN",
+  "appender": "console"
+}
