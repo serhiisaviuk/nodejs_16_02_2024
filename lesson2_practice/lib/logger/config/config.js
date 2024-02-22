@@ -1,4 +1,7 @@
-import * as constants from "./constants.js";
+import * as constants from "../constants.js";
+import configFile from "./configFile.js";
+import {validateLogLevel, validateAppender} from "./validator.js";
+
 
 const defaultConfig = {
     logLevel: constants.level.INFO,
@@ -10,21 +13,24 @@ function enrichConfig(config) {
     config.scoreLevel = constants.scoreLevel[config.logLevel]
 }
 
-function initConfig() {
-    const config = defaultConfig;
-
+function getConfigFromEnvs() {
     const logLevel = process.env.LOG_LEVEL?.toUpperCase();
     const appender = process.env.LOG_APPENDER?.toUpperCase();
 
-    if(logLevel){
-        //TODO check for ifExist
+    const config = {}
+    if (validateLogLevel(logLevel)) {
         config.logLevel = logLevel
     }
 
-    if(appender){
-        //TODO check for ifExist
+    if (validateAppender(appender)) {
         config.appender = appender
     }
+
+    return config;
+}
+
+function initConfig() {
+    const config = Object.assign(defaultConfig, configFile.configFromFile(), getConfigFromEnvs());
 
     enrichConfig(config);
 

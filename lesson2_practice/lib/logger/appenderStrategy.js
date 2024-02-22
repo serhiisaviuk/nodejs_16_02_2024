@@ -1,5 +1,5 @@
 import * as constants from "./constants.js";
-import config from "./config.js";
+import config from "./config/config.js";
 import consoleAppender from "./appenders/console.js"
 
 const appenders = {

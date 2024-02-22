@@ -1,4 +1,4 @@
-import config from "./config.js";
+import config from "./config/config.js";
 import {scoreLevel, level} from "./constants.js";
 import * as appenderStrategy from "./appenderStrategy.js"
 
