@@ -1,4 +1,4 @@
 {
   "logLevel": "TRACE",
-  "appender": "console"
+  "appender": "file"
 }
