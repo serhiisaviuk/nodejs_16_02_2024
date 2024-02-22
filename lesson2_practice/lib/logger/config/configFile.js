@@ -1,5 +1,5 @@
 import fs from "fs";
-import {validateLogLevel, validateAppender} from "./validator.js";
+import {validateLogLevel, validateAppender, validateFormatter} from "./validator.js";
 
 const path = process.env.LOG_CONFIG_FILE;
 
@@ -14,12 +14,19 @@ function configFromFile() {
     try {
         const configFile = JSON.parse(fs.readFileSync(path, "utf8")) ?? {};
 
-        if (validateLogLevel(configFile.logLevel)) {
-            config.logLevel = configFile.logLevel;
+        const logLevel = configFile.logLevel.toUpperCase();
+        if (validateLogLevel(logLevel)) {
+            config.logLevel = logLevel;
         }
 
-        if (validateAppender(configFile.appender)) {
-            config.appender = configFile.appender;
+        const appender = configFile.appender.toUpperCase();
+        if (validateAppender(appender)) {
+            config.appender = appender;
+        }
+
+        const formatter = configFile.outputFormat.toUpperCase();
+        if(validateFormatter(formatter)){
+            config.formatter = formatter;
         }
 
     } catch (e) {
