@@ -1,4 +1,5 @@
 {
   "logLevel": "TRACE",
-  "appender": "file"
+  "appender": "file",
+  "formatter":"csv"
 }

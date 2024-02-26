@@ -19,8 +19,10 @@ if (LOG_CONFIG_FILE) {
   }
 }
 
-let LOG_LEVEL = process.env['LOG_LEVE'] || fileData.logLevel;
+let LOG_LEVEL = process.env['LOG_LEVEL'] || fileData.logLevel;
 let LOG_APPENDER = process.env['LOG_APPENDER'] || fileData.appender;
+let LOG_FORMATTER =
+  process.env['LOG_FORMATTER'] || fileData.formatter || 'DEFAULT';
 const MAIN_LOG_FILE = process.env['MAIN_LOG_FILE'] || 'logs.txt';
 const ERROR_LOG_FILE = process.env['ERROR_LOG_FILE'] || 'error-logs.txt';
 
@@ -30,5 +32,14 @@ if (typeof LOG_LEVEL === 'string') {
 if (typeof LOG_APPENDER === 'string') {
   LOG_APPENDER = LOG_APPENDER.toUpperCase();
 }
+if (typeof LOG_FORMATTER === 'string') {
+  LOG_FORMATTER = LOG_FORMATTER.toUpperCase();
+}
 
-export { LOG_LEVEL, LOG_APPENDER, MAIN_LOG_FILE, ERROR_LOG_FILE };
+export {
+  LOG_LEVEL,
+  LOG_APPENDER,
+  MAIN_LOG_FILE,
+  ERROR_LOG_FILE,
+  LOG_FORMATTER,
+};

@@ -12,7 +12,7 @@ async function log(message, level) {
   try {
     fs.promises.appendFile(MAIN_LOG_FILE, message);
     if (level === constLevele.ERROR) {
-      fs.promises.appendFile(ERROR_LOG_FILE, message);
+      fs.appendFile(ERROR_LOG_FILE, message, appendCallback);
     }
   } catch (err) {
     console.log(err);
