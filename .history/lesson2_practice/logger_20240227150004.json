@@ -1,6 +1,6 @@
 {
   "logLevel": "TRACE",
-  "appender": "file,console",
+  "appender": "file",
   "formatter":"csv",
   "delimetter":","
 }

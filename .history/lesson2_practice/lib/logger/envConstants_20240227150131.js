@@ -32,7 +32,7 @@ if (typeof LOG_LEVEL === 'string') {
   LOG_LEVEL = LOG_LEVEL.toUpperCase();
 }
 if (typeof LOG_APPENDER === 'string') {
-  LOG_APPENDER = LOG_APPENDER.toUpperCase().split(',');
+  LOG_APPENDER = LOG_APPENDER.toUpperCase();
 }
 if (typeof LOG_FORMATTER === 'string') {
   LOG_FORMATTER = LOG_FORMATTER.toUpperCase();

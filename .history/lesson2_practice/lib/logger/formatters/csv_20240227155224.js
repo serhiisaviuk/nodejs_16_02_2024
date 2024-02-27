@@ -1,4 +1,4 @@
-import { LOG_DELIMETTER } from '../envConstants.js';
+import { LOG_DELIMETTER } from './envConstants.js';
 function formatMessage(date, level, category, message) {
   const data = [
     date,

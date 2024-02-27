@@ -4,19 +4,19 @@ import * as appenderStrategy from './appenderStrategy.js';
 import * as formatterStrategy from './formatterStrategy.js';
 
 const logger = (category) => ({
-  info: (...message) => {
+  info: (message) => {
     executeLog(level.INFO, category, message);
   },
-  warn: (...message) => {
+  warn: (message) => {
     executeLog(level.WARN, category, message);
   },
-  error: (...message) => {
+  error: (message) => {
     executeLog(level.ERROR, category, message);
   },
-  debug: (...message) => {
+  debug: (message) => {
     executeLog(level.DEBUG, category, message);
   },
-  trace: (...message) => {
+  trace: (message) => {
     executeLog(level.TRACE, category, message);
   },
 });
@@ -26,12 +26,10 @@ const formatter = formatterStrategy.getFormatter();
 
 function executeLog(level, category, message) {
   if (scoreLevel[level] <= config.scoreLevel) {
-    for (const iterator of appender) {
-      iterator.log(
-        formatter.formatMessage(Date.now(), level, category, message),
-        level
-      );
-    }
+    appender.log(
+      formatter.formatMessage(Date.now(), level, category, message),
+      level
+    );
   }
 }
 

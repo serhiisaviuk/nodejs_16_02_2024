@@ -9,11 +9,7 @@ const appenders = {
   [undefined]: consoleAppender,
 };
 function getAppender() {
-  const appendersRes = [];
-  for (const iterator of config.appender) {
-    appendersRes.push(appenders[iterator]);
-  }
-  return appendersRes;
+  return appenders[config.appender];
 }
 
 export { getAppender };

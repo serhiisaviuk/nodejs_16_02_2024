@@ -4,7 +4,7 @@ import { LOG_LEVEL, LOG_APPENDER, LOG_FORMATTER } from './envConstants.js';
 const defaultConfig = {
   logLevel: LOG_LEVEL || constants.level.INFO,
   scoreLevel: constants.scoreLevel[constants.level.INFO],
-  appender: LOG_APPENDER || [constants.appender.CONSOLE],
+  appender: LOG_APPENDER || constants.appender.CONSOLE,
   formater: LOG_FORMATTER || constants.formatter.DEFAULT,
 };
 

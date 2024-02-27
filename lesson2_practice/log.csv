@@ -19,3 +19,51 @@
 1708969515333,app.js,INFO,{"apple":"apple","banana":"banana"}
 1708969515332,app.js,INFO,{"yellow":"yellow","red":"red"}
 1708969515333,handler.js,INFO,"Second operand 5"
+1709041375475,app.js,INFO,[{"yellow":"yellow","red":"red"}]
+1709041375483,app.js,ERROR,["ERROR occur: My log"]
+1709041375483,app.js,ERROR,["ERROR occur: My log"]
+1709041375483,app.js,DEBUG,[{"apple":"apple","banana":"banana"}]
+1709041375483,app.js,DEBUG,[{"apple":"apple","banana":"banana"}]
+1709041375483,app.js,TRACE,[{"apple":"apple","banana":"banana"}]
+1709041375483,app.js,TRACE,[{"apple":"apple","banana":"banana"}]
+1709041375475,app.js,INFO,[{"yellow":"yellow","red":"red"}]
+1709041375484,handler.js,INFO,["First operand 3"]
+1709041375484,handler.js,INFO,["First operand 3"]
+1709041375484,handler.js,INFO,["Second operand 5"]
+1709041375483,app.js,INFO,[{"apple":"apple","banana":"banana"}]
+1709041375484,handler.js,INFO,["Second operand 5"]
+1709041375483,app.js,INFO,[{"apple":"apple","banana":"banana"}]
+1709042172981,app.js,INFO,{"yellow":"yellow","red":"red"}
+1709042172990,app.js,ERROR,"ERROR occur: My log"
+1709042172990,app.js,ERROR,"ERROR occur: My log"
+1709042172990,app.js,DEBUG,{"apple":"apple","banana":"banana"}
+1709042172990,app.js,DEBUG,{"apple":"apple","banana":"banana"}
+1709042172990,app.js,TRACE,{"apple":"apple","banana":"banana"}
+1709042172990,app.js,TRACE,{"apple":"apple","banana":"banana"}
+1709042172991,handler.js,INFO,"First operand 3"
+1709042172991,handler.js,INFO,"First operand 3"
+1709042172991,handler.js,INFO,"Second operand 5"
+1709042172991,handler.js,INFO,"Second operand 5"
+1709042172989,app.js,INFO,{"apple":"apple","banana":"banana"}
+1709042172981,app.js,INFO,{"yellow":"yellow","red":"red"}
+1709042172989,app.js,INFO,{"apple":"apple","banana":"banana"}
+1709042216002,app.js,INFO,{"yellow":"yellow","red":"red"}
+1709042216002,app.js,INFO,{"yellow":"yellow","red":"red"}
+1709042216011,app.js,INFO,{"apple":"apple","banana":"banana"},{"yellow":"yellow","red":"red"}
+1709042216011,app.js,INFO,{"apple":"apple","banana":"banana"},{"yellow":"yellow","red":"red"}
+1709042216011,app.js,ERROR,"ERROR occur: My log"
+1709042216011,app.js,ERROR,"ERROR occur: My log"
+1709042216011,app.js,DEBUG,{"apple":"apple","banana":"banana"}
+1709042216011,app.js,DEBUG,{"apple":"apple","banana":"banana"}
+1709042216012,app.js,TRACE,{"apple":"apple","banana":"banana"}
+1709042216012,app.js,TRACE,{"apple":"apple","banana":"banana"}
+1709042216012,handler.js,INFO,"First operand 3"
+1709042216012,handler.js,INFO,"First operand 3"
+1709042216013,handler.js,INFO,"Second operand 5"
+1709042216013,handler.js,INFO,"Second operand 5"
+1709042222720,app.js,INFO,{"apple":"apple","banana":"banana"},{"yellow":"yellow","red":"red"}
+1709042222720,app.js,INFO,{"apple":"apple","banana":"banana"},{"yellow":"yellow","red":"red"}
+1709042222728,handler.js,INFO,"First operand 3"
+1709042222728,handler.js,INFO,"First operand 3"
+1709042222728,handler.js,INFO,"Second operand 5"
+1709042222728,handler.js,INFO,"Second operand 5"

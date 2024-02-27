@@ -20,10 +20,10 @@ import { add } from './handler.js';
 
 const log = logger.getLogger('app.js');
 
-log.info(color);
+//log.info(color);
 log.info(fruit, color);
-log.error('ERROR occur: My log');
-log.debug(fruit);
-log.trace(fruit);
+// log.error('ERROR occur: My log');
+// log.debug(fruit);
+// log.trace(fruit);
 
 add(3, 5);
