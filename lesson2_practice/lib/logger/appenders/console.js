@@ -1,10 +1,9 @@
-function log(date, level, category, message) {
-    console.log(formatMessage(date, level, category, message));
+const log = formatter => (date, level, category, message) => {
+    console.log(formatter(date, level, category, message));
 }
 
-function formatMessage(date,level, category, message) {
-    return `Date: ${date}, category:${category}, level:${level}, message:${JSON.stringify(message)}`;
+function init(formatter) {
+    return {log: log(formatter)}
 }
 
-
-export default {log}
+export default init;
