@@ -1,6 +1,7 @@
 import config from "./config/config.js";
 import {scoreLevel, level} from "./constants.js";
 import * as appenderStrategy from "./appenders/appenderStrategy.js"
+import {transformMessageLog} from "./util.js";
 
 const logger = (category) => ({
     trace: (...message) => {
@@ -23,9 +24,8 @@ const logger = (category) => ({
 const appender = appenderStrategy.getAppender();
 
 function executeLog(level, category, message = []) {
-    const data = message.join(" ");
     if (scoreLevel[level] <= config.scoreLevel) {
-        appender.log(Date.now(), level, category, data);
+        appender.log(Date.now(), level, category, transformMessageLog(message));
     }
 }
 
