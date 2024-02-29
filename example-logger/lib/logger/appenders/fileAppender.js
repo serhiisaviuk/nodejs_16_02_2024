@@ -12,12 +12,12 @@ const log = formatter => (date, level, category, message) => {
     }
 }
 
-function appendLog(message) {
-    fs.appendFileSync(LOG_FILE_PATH, message);
+async function appendLog(message) {
+    await fs.promises.appendFile(LOG_FILE_PATH, message);
 }
 
-function appendErrorFile(message){
-    fs.appendFileSync(LOG_FILE_ERROR_PATH, message)
+async function appendErrorFile(message){
+    await fs.promises.appendFile(LOG_FILE_ERROR_PATH, message);
 }
 
 function init(formatter) {
