@@ -31,6 +31,7 @@ function configFromFile() {
 
     } catch (e) {
         // TODO can't read file, throw error!
+        console.log(e);
     }
 
     return config;
