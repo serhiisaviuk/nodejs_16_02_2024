@@ -26,4 +26,6 @@ const formatters = {
     CSV: "CSV"
 }
 
-export {level, scoreLevel, appender, formatters}
+const DELIMITER = " "
+
+export {level, scoreLevel, appender, formatters, DELIMITER}
