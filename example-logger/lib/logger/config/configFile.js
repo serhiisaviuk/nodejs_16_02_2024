@@ -3,6 +3,10 @@ import {validateLogLevel, validateAppender, validateFormatter} from "./validator
 
 const path = process.env.LOG_CONFIG_FILE;
 
+function handleAppenders(appenders = []) {
+    return appenders.map(a => a.toUpperCase()).filter(validateAppender);
+}
+
 function configFromFile() {
 
     const config = {};
@@ -19,13 +23,13 @@ function configFromFile() {
             config.logLevel = logLevel;
         }
 
-        const appender = configFile.appender.toUpperCase();
-        if (validateAppender(appender)) {
-            config.appender = appender;
+        const appenders = handleAppenders(configFile.appenders);
+        if (appenders.length > 0) {
+            config.appenders = appenders;
         }
 
         const formatter = configFile.outputFormat.toUpperCase();
-        if(validateFormatter(formatter)){
+        if (validateFormatter(formatter)) {
             config.formatter = formatter;
         }
 
