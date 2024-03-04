@@ -7,7 +7,7 @@ function handleAppenders(appenders = []) {
     return appenders.map(a => a.toUpperCase()).filter(validateAppender);
 }
 
-function configFromFile() {
+export function configFromFile() {
 
     const config = {};
 
