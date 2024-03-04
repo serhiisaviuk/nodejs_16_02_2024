@@ -1,3 +1,3 @@
 export function transformMessageLog(message, delimiter = " "){
-    return message.join(delimiter);
+    return message.map(JSON.stringify).join(delimiter);
 }
