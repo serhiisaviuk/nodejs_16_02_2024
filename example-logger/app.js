@@ -25,6 +25,8 @@ log.info(color);
 log.info(fruit);
 log.error("ERROR occur: My log");
 
+log.info("test", {qwe:"qwe"}, 54, true);
+
 
 add(3,5);
 
