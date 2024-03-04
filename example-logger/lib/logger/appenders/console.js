@@ -1,9 +1,14 @@
-const log = formatter => (date, level, category, message) => {
+const logger = formatter => (date, level, category, message) => {
     console.log(formatter(date, level, category, message));
 }
 
-function init(formatter) {
-    return {log: log(formatter)}
+function init(emitter, formatter) {
+
+    const log = logger(formatter);
+
+    emitter.on("log", (...args) => {
+        log(...args);
+    })
 }
 
 export default init;

@@ -5,7 +5,7 @@ const HEADER = "Date,Level,Category,Message\n";
 
 let appFileName;
 let appFileErrorName;
-const log = formatter => (date, level, category, message) => {
+const logger = formatter => (date, level, category, message) => {
     const logMessage = formatter(date, level, category, message) + "\n";
     appendLog(logMessage);
 
@@ -46,13 +46,15 @@ function createFileName() {
     return `app_${padZeros(date.getDay())}_${padZeros(date.getMonth() + 1)}_${date.getFullYear()}`;
 }
 
-function init() {
+function init(emitter) {
 
     initFiles();
 
-    return {
-        log: log(csvformatter)
-    }
+    const log = logger(csvformatter);
+
+    emitter.on("log", (...args) => {
+        log(...args);
+    })
 }
 
 export default init;

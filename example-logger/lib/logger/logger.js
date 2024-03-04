@@ -21,11 +21,11 @@ const logger = (category) => ({
     }
 });
 
-const appenders = appenderStrategy.getAppenders();
+const appendersEmitter = appenderStrategy.initAppenders();
 
 function executeLog(level, category, message = []) {
     if (scoreLevel[level] <= config.scoreLevel) {
-        appenders.forEach(a => a.log(Date.now(), level, category, transformMessageLog(message)));
+        appendersEmitter.emit("log", Date.now(), level, category, transformMessageLog(message));
     }
 }
 

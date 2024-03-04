@@ -1,3 +1,5 @@
+import EventEmitter from "node:events";
+
 import * as constants from "../constants.js";
 import config from "../config/config.js";
 import consoleAppender from "./console.js"
@@ -9,16 +11,20 @@ const appenders = {
     [constants.appender.CONSOLE]: consoleAppender,
     [constants.appender.FILE]: fileAppender,
     [constants.appender.CSV]: csvAppender,
-    [undefined]:consoleAppender
+    [undefined]: consoleAppender
 }
 
-function getAppenders(){
+const appenderEmitter = new EventEmitter();
+
+function initAppenders() {
     const outputFormat = getFormatter(config.formatter);
 
-    return config.appenders
+    config.appenders
         .map(a => appenders[a])
         .filter(a => !!a)
-        .map(a => a(outputFormat));
+        .map(a => a(appenderEmitter, outputFormat));
+
+    return appenderEmitter;
 }
 
-export {getAppenders}
+export {initAppenders}
