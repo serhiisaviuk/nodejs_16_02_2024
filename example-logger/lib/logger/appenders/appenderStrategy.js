@@ -1,4 +1,5 @@
 import EventEmitter from "node:events";
+import {Readable} from "stream"
 
 import * as constants from "../constants.js";
 import config from "../config/config.js";
@@ -19,7 +20,7 @@ const appenderEmitter = new EventEmitter();
 function initAppenders() {
     const outputFormat = getFormatter(config.formatter);
 
-    config.appenders
+    const appendersObject = config.appenders
         .map(a => appenders[a])
         .filter(a => !!a)
         .map(a => a(appenderEmitter, outputFormat));

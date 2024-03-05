@@ -7,20 +7,10 @@ let fileStream;
 let fileErrorStream;
 const logger = formatter => (date, level, category, message) => {
     const logMessage = formatter(date, level, category, message) + "\n";
-    // appendLog(logMessage);
     fileStream.write(logMessage);
     if (level === "ERROR") {
         fileErrorStream.write(logMessage)
     }
-}
-
-async function appendLog(message) {
-
-    await fs.promises.appendFile(LOG_FILE_PATH, message);
-}
-
-async function appendErrorFile(message) {
-    await fs.promises.appendFile(LOG_FILE_ERROR_PATH, message);
 }
 
 function init(emitter, formatter) {

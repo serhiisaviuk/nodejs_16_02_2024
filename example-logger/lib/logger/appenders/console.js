@@ -1,15 +1,24 @@
-const logger = formatter => (date, level, category, message) => {
-    const data = formatter(date, level, category, message) + '\n';
+import {Readable} from "stream"
+import FilenameTransformer from "../transformers/filenameTransformer.js";
 
-    process.stdout.write(data);
-}
+import {transformer} from "../formatters/default.js";
 
 function init(emitter, formatter) {
 
-    const log = logger(formatter);
+    const filenameTransformer = new FilenameTransformer();
+    const formatTransformer = transformer();
 
-    emitter.on("log", (...args) => {
-        log(...args);
+    const readable = new Readable({
+        objectMode: true, read(size) {
+        }
+    });
+
+    readable.pipe(filenameTransformer).pipe(formatTransformer)
+        .pipe(process.stdout);
+
+
+    emitter.on("log", (date, category, level, message) => {
+        readable.push({date, category, level, message})
     })
 }
 
