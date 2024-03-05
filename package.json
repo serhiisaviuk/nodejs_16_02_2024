@@ -4,6 +4,7 @@
   "description": "Hillel project",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon lesson6/app.js",
     "test": "test"
   },
   "keywords": [
@@ -13,7 +14,9 @@
   "author": "me",
   "license": "ISC",
   "type": "module",
+
   "dependencies": {
+    "express": "^4.18.3",
     "lodash": "^4.17.21"
   }
 }
