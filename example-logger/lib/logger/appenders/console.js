@@ -1,24 +1,15 @@
-import {Readable} from "stream"
-import FilenameTransformer from "../transformers/filenameTransformer.js";
-
 import {transformer} from "../formatters/default.js";
 
-function init(emitter, formatter) {
+function init(inputStream, formatter) {
 
-    const filenameTransformer = new FilenameTransformer();
     const formatTransformer = transformer();
 
-    const readable = new Readable({
-        objectMode: true, read(size) {
-        }
-    });
-
-    readable.pipe(filenameTransformer).pipe(formatTransformer)
+    inputStream.pipe(formatTransformer)
         .pipe(process.stdout);
 
 
-    emitter.on("log", (date, category, level, message) => {
-        readable.push({date, category, level, message})
+    inputStream.on("log", (date, category, level, message) => {
+        inputStream.push({date, category, level, message})
     })
 }
 

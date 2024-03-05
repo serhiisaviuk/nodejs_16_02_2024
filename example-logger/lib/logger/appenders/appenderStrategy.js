@@ -7,6 +7,7 @@ import consoleAppender from "./console.js"
 import fileAppender from "./file.js";
 import csvAppender from "./csv.js";
 import {getFormatter} from "../formatters/formatterStrategy.js";
+import FilenameTransformer from "../transformers/filenameTransformer.js";
 
 const appenders = {
     [constants.appender.CONSOLE]: consoleAppender,
@@ -15,17 +16,24 @@ const appenders = {
     [undefined]: consoleAppender
 }
 
-const appenderEmitter = new EventEmitter();
+// const appenderEmitter = new EventEmitter();
+const readable = new Readable({
+    objectMode: true, read(size) {
+    }
+});
 
 function initAppenders() {
     const outputFormat = getFormatter(config.formatter);
 
-    const appendersObject = config.appenders
+    const filenameTransformer = new FilenameTransformer();
+    readable.pipe(filenameTransformer)
+
+    config.appenders
         .map(a => appenders[a])
         .filter(a => !!a)
-        .map(a => a(appenderEmitter, outputFormat));
+        .map(a => a(filenameTransformer, outputFormat));
 
-    return appenderEmitter;
+    return filenameTransformer;
 }
 
 export {initAppenders}

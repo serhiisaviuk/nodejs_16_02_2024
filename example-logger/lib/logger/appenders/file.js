@@ -13,7 +13,7 @@ const logger = formatter => (date, level, category, message) => {
     }
 }
 
-function init(emitter, formatter) {
+function init(inputStream, formatter) {
 
     const log = logger(formatter);
     fileStream = fs.createWriteStream(LOG_FILE_PATH, {flags: "a+"});
@@ -24,8 +24,7 @@ function init(emitter, formatter) {
         fileErrorStream.end();
     })
 
-
-    emitter.on("log", (...args) => {
+    inputStream.on("log", (...args) => {
         log(...args);
     });
 }
