@@ -6,11 +6,13 @@ import fileAppender from "./file.js";
 import csvAppender from "./csv.js";
 import {getFormatter} from "../formatters/formatterStrategy.js";
 import FilenameTransformer from "../transformers/filenameTransformer.js";
+import networkAppender from "./network.js";
 
 const appenders = {
     [constants.appender.CONSOLE]: consoleAppender,
     [constants.appender.FILE]: fileAppender,
     [constants.appender.CSV]: csvAppender,
+    [constants.appender.NETWORK]: networkAppender,
     [undefined]: consoleAppender
 }
 

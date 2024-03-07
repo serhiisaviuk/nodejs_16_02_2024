@@ -8,7 +8,10 @@ const defaultConfig = {
     scoreLevel: constants.scoreLevel[constants.level.INFO],
     appenders: [constants.appender.CONSOLE],
     formatter: constants.formatters.DEFAULT,
-    delimiter: constants.DELIMITER
+    delimiter: constants.DELIMITER,
+    network: {
+        port: 3002
+    }
 }
 
 function enrichConfig(config) {
