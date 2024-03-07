@@ -1,12 +1,6 @@
 import {Transform} from "stream"
 
-function formatMessage(date, level, category, message) {
-    return `Date: ${date}, category:${category}, level:${level}, message:${message}`;
-}
-
-export default formatMessage;
-
-export function transformer() {
+function transformer() {
     return new Transform({
         objectMode: true,
         transform(chunk, encoding, callback) {
@@ -26,4 +20,9 @@ export function transformer() {
             callback(null, response);
         }
     })
+}
+
+
+export default {
+    transformer
 }

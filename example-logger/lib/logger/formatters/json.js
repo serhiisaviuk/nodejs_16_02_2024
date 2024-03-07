@@ -1,3 +1,15 @@
-export default function formatMessage(date, level, category, message) {
-    return JSON.stringify({date, level, category, message});
+import {Transform} from "stream";
+
+function transformer() {
+    return new Transform({
+        objectMode: true,
+        transform(chunk, encoding, callback) {
+            callback(null, JSON.stringify(chunk) + '\n');
+        }
+    })
+}
+
+
+export default {
+    transformer
 }

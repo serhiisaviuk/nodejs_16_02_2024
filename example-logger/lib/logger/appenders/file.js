@@ -1,32 +1,42 @@
 import fs from "fs";
+import {Transform} from "stream";
+import * as constants from "../constants.js";
 
 const LOG_FILE_PATH = "./app.log"; //TODO Make configurable
 const LOG_FILE_ERROR_PATH = "./app_error.log";
 
-let fileStream;
-let fileErrorStream;
-const logger = formatter => (date, level, category, message) => {
-    const logMessage = formatter(date, level, category, message) + "\n";
-    fileStream.write(logMessage);
-    if (level === "ERROR") {
-        fileErrorStream.write(logMessage)
-    }
+function initFilesStream(fileName, errorFileName) {
+    const fileStream = fs.createWriteStream(fileName, {flags: "a+"});
+    const fileErrorStream = fs.createWriteStream(errorFileName, {flags: "a+"});
+
+    return {fileStream, fileErrorStream};
 }
 
-function init(inputStream, formatter) {
+export function init(inputStream, formatter, {
+    logFileName = LOG_FILE_PATH,
+    logErrorFileName = LOG_FILE_ERROR_PATH
+}) {
 
-    const log = logger(formatter);
-    fileStream = fs.createWriteStream(LOG_FILE_PATH, {flags: "a+"});
-    fileErrorStream = fs.createWriteStream(LOG_FILE_ERROR_PATH, {flags: "a+"});
+    const {fileStream, fileErrorStream} = initFilesStream(logFileName, logErrorFileName);
 
-    process.on("beforeExit", () => {
-        fileStream.end();
-        fileErrorStream.end();
+    inputStream.pipe(formatter.transformer()).pipe(fileStream);
+
+    inputStream.pipe(new Transform({
+        objectMode: true,
+        transform(chunk, encoding, callback) {
+            if (chunk.level === constants.level.ERROR) {
+                callback(null, chunk);
+            } else {
+                callback();
+            }
+        }
+    }))
+        .pipe(formatter.transformer()).pipe(fileErrorStream);
+}
+
+export default (inputStream, formatter) => {
+    init(inputStream, formatter, {
+        logFileName: LOG_FILE_PATH,
+        logErrorFileName: LOG_FILE_ERROR_PATH
     })
-
-    inputStream.on("log", (...args) => {
-        log(...args);
-    });
-}
-
-export default init;
+};

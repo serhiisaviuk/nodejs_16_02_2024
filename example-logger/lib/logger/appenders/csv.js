@@ -1,26 +1,11 @@
 import fs from "fs";
 import csvformatter from "../formatters/csv.js"
+import * as fileAppender from "./file.js"
 
 const HEADER = "Date,Level,Category,Message\n";
 
 let appFileName;
 let appFileErrorName;
-const logger = formatter => (date, level, category, message) => {
-    const logMessage = formatter(date, level, category, message) + "\n";
-    appendLog(logMessage);
-
-    if (level === "ERROR") {
-        appendErrorFile(logMessage);
-    }
-}
-
-async function appendLog(message) {
-    await fs.promises.appendFile(appFileName, message);
-}
-
-async function appendErrorFile(message) {
-    await fs.promises.appendFile(appFileErrorName, message);
-}
 
 function initFiles() {
     const fileName = createFileName();
@@ -46,14 +31,13 @@ function createFileName() {
     return `app_${padZeros(date.getDay())}_${padZeros(date.getMonth() + 1)}_${date.getFullYear()}`;
 }
 
-function init(emitter) {
+function init(inputStream) {
 
     initFiles();
 
-    const log = logger(csvformatter);
-
-    emitter.on("log", (...args) => {
-        log(...args);
+    fileAppender.init(inputStream, csvformatter, {
+        logFileName: appFileName,
+        logErrorFileName: appFileErrorName
     })
 }
 

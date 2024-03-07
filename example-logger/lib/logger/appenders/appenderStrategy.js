@@ -1,6 +1,4 @@
-import EventEmitter from "node:events";
-import {Readable} from "stream"
-
+import {Readable} from "stream";
 import * as constants from "../constants.js";
 import config from "../config/config.js";
 import consoleAppender from "./console.js"
@@ -16,24 +14,24 @@ const appenders = {
     [undefined]: consoleAppender
 }
 
-// const appenderEmitter = new EventEmitter();
-const readable = new Readable({
-    objectMode: true, read(size) {
-    }
-});
-
 function initAppenders() {
     const outputFormat = getFormatter(config.formatter);
 
-    const filenameTransformer = new FilenameTransformer();
-    readable.pipe(filenameTransformer)
+
+    const inputStream = new Readable({
+        objectMode: true,
+        read(size) {
+        }
+    });
+
+    const stream = inputStream.pipe(new FilenameTransformer());
 
     config.appenders
         .map(a => appenders[a])
         .filter(a => !!a)
-        .map(a => a(filenameTransformer, outputFormat));
+        .map(a => a(stream, outputFormat));
 
-    return filenameTransformer;
+    return inputStream;
 }
 
 export {initAppenders}
