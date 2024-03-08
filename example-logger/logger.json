@@ -1,5 +1,5 @@
 {
   "logLevel": "INFO",
-  "appender": "qwe",
+  "appenders": ["file", "CONSOLE"],
   "outputFormat": "json"
 }

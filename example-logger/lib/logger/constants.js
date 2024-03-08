@@ -16,12 +16,16 @@ const scoreLevel = {
 
 const appender = {
     CONSOLE: "CONSOLE",
-    FILE: "FILE"
+    FILE: "FILE",
+    CSV: "CSV"
 }
 
 const formatters = {
+    DEFAULT:"DEFAULT",
     JSON: "JSON",
-    DEFAULT:"DEFAULT"
+    CSV: "CSV"
 }
 
-export {level, scoreLevel, appender, formatters}
+const DELIMITER = " "
+
+export {level, scoreLevel, appender, formatters, DELIMITER}
