@@ -5,8 +5,8 @@ const users = {
 export default (req, res, next) => {
     const auth = req.header("Authorization");
     if (auth?.startsWith("Basic ")) {
-        const authData = auth.substring(6, auth.length).split(":");
-        if(users[authData[0]] === authData[1]){
+        const [name, password] = auth.substring(6, auth.length).split(":");
+        if(users[name] === password){
             next();
             return;
         }

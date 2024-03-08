@@ -27,6 +27,9 @@ log.error("ERROR occur: My log");
 
 log.info("test", {qwe:"qwe"}, 54, true);
 
+process.exit(0)
+// logger.close();
+
 
 add(3,5);
 
