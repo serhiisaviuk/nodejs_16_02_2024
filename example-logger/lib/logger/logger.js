@@ -21,13 +21,22 @@ const logger = (category) => ({
     }
 });
 
-const appenders = appenderStrategy.getAppenders();
+const appendersStream = appenderStrategy.initAppenders();
 
-function executeLog(level, category, message = []) {
-    if (scoreLevel[level] <= config.scoreLevel) {
-        appenders.forEach(a => a.log(Date.now(), level, category, transformMessageLog(message)));
+function executeLog(lvl, category, message = []) {
+    if (scoreLevel[lvl] <= config.scoreLevel) {
+        appendersStream.push({
+            date: Date.now(),
+            level:lvl,
+            category,
+            message:transformMessageLog(message)
+        });
     }
 }
+
+process.on("beforeExit", ()=>{
+    appendersStream.push(null)
+})
 
 
 export default {
@@ -35,3 +44,5 @@ export default {
         return logger(category);
     }
 };
+
+

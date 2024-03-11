@@ -1,4 +1,28 @@
-export const header = 'Date, level, category, message';
-export default function formatMessage(date, level, category, message) {
-    return `${date},${level},${category},${message}`
+import {Transform} from "stream"
+
+function transformer() {
+    return new Transform({
+        objectMode: true,
+        transform(chunk, encoding, callback) {
+            let response = "";
+
+            Object.entries(chunk).forEach(([key, value], index, array) => {
+                response += `${value}`
+
+                if (index < array.length - 1) {
+                    response += ",";
+                }
+            });
+
+            response += "\n";
+
+
+            callback(null, response);
+        }
+    })
+}
+
+
+export default {
+    transformer
 }

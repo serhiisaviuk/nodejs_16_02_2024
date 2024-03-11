@@ -1,9 +1,6 @@
-const log = formatter => (date, level, category, message) => {
-    console.log(formatter(date, level, category, message));
-}
+function init(inputStream, formatter) {
 
-function init(formatter) {
-    return {log: log(formatter)}
+    inputStream.pipe(formatter.transformer()).pipe(process.stdout);
 }
 
 export default init;
