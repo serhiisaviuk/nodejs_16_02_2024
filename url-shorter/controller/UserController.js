@@ -19,9 +19,9 @@ export default class UserController extends Router {
             res.render("users", {users, csrfToken: req.session.csrfToken});
         })
 
-        this.all("/", (req, res) => {
-            res.send("UserController here!");
-        })
+        this.get("/:userId", (req, res, next) => {
+            // get all data by user and render UI
+        });
 
         this.get("/all", (req, res) => {
             const users = this.userService.getUsersPublicData();
@@ -34,7 +34,6 @@ export default class UserController extends Router {
             (req, res) => {
                 const {name, password} = req.body;
 
-
                 try {
                     this.userService.create(name, password);
                 } catch (e) {
@@ -45,6 +44,10 @@ export default class UserController extends Router {
                     message: "Saved!"
                 });
             })
+
+        this.all("/", (req, res) => {
+            res.send("UserController here!");
+        })
     }
 
 

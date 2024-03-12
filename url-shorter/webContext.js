@@ -7,6 +7,7 @@ import {initCsrfTokenMiddleware} from "./middleware/csrfMiddleware.js";
 import LoginController from "./controller/LoginController.js";
 import {authorizedInSessionMiddleware} from "./middleware/authMiddleware.js";
 import UserController from "./controller/UserController.js";
+import UrlController from "./controller/UrlController.js";
 
 function initMiddlewares(app){
     app.use(express.json());
@@ -17,7 +18,7 @@ function initMiddlewares(app){
         store: new RedisStore({
             client: redisClient, ttl: 86400
         }),
-        secret: "QWESdfisdfj3",
+        secret: "QWESdfisdfj3", //TODO should be stored in config!
         saveUninitialized: true,
         resave: true,
         name: "sessionId",
@@ -35,9 +36,11 @@ function initControllers(app){
     });
 
     app.use("/login", new LoginController())
+    app.use("/code", new UrlController());
 
     app.use(authorizedInSessionMiddleware)
     app.use("/user", new UserController());
+    app.use("/dashboard");
 
 }
 

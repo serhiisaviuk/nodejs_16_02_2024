@@ -24,13 +24,15 @@ export default class UserService extends Instance {
 
         const result = [];
         for (const user of users) {
-            result.push({
-                id: user.userId,
-                name: user.name
-            })
+            result.push(filterUserData(user))
         }
 
         return result;
+    }
+
+    getUser(userId){
+        const user = this.userRepository.get(userId);
+        return filterUserData(user);
     }
 
     checkPassword(name, password) {
@@ -47,4 +49,12 @@ export default class UserService extends Instance {
         return false;
     }
 
+}
+
+
+function filterUserData(user){
+    return {
+        userId: user.userId,
+        name: user.name
+    }
 }
