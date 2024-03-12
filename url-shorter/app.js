@@ -1,13 +1,13 @@
 import express from "express"
-import authMiddleware from "./authMiddleware.js";
+import {authorizedInSessionMiddleware} from "./middleware/authMiddleware.js";
 import UserController from "./controller/UserController.js";
 import LoginController from "./controller/LoginController.js";
 import cookieParser from "cookie-parser";
-import {generateString} from "./utils/randomString.js";
 import session from "express-session";
 
 import {createClient} from "redis"
 import RedisStore from "connect-redis"
+import {initCsrfTokenMiddleware} from "./middleware/csrfMiddleware.js";
 
 // Initialize client.
 let redisClient = createClient({
@@ -50,26 +50,11 @@ app.all("/", (req, res) => {
 });
 
 app.use("/login", new LoginController())
-
-app.use((req, res, next) => {
-    if (req.session.login) {
-        return next();
-    }
-
-    res.status(401).send("Unauthorized");
-});
-
-app.use((req, res, next) => {
-    if (!req.session.csrfToken) {
-        req.session.csrfToken = generateString(16);
-    }
-
-    next();
-})
+app.use(authorizedInSessionMiddleware)
+app.use(initCsrfTokenMiddleware);
 
 app.use("/user", new UserController());
 
-// app.use(authMiddleware);
 
 app.use((err, req, res, next) => {
     console.log(err);
