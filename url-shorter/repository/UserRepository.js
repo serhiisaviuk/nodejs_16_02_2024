@@ -1,5 +1,7 @@
 const map = new Map();
 
+map.set("1", {userId: "userId", name: "qwe", password: "qwe"});
+
 export default class UserRepository {
     save(user) {
         map.set(user.userId, user);
@@ -9,7 +11,17 @@ export default class UserRepository {
         return map.get(userId);
     }
 
-    getAll(){
+    getUserByName(name) {
+        for (let user of map.values()) {
+            if (user.name === name) {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    getAll() {
         return map.values();
     }
 }
