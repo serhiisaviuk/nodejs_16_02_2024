@@ -1,5 +1,8 @@
+import fs from "fs";
+
 function log(date, level, category, message) {
-  console.log(formatMessage(date, level, category, message));
+  const logMessage = formatMessage(date, level, category, message);
+  fs.appendFileSync("app.log", logMessage + "\n", { flag: "a" });
 }
 
 function formatMessage(date, level, category, message) {

@@ -2,47 +2,69 @@ import fs from "fs";
 import path from "path";
 import * as constants from "./constants.js";
 
-
-const defaults = {
-    level: constants.INFO,
-    appender: constants.appenders.console
-}
-
-function getFileConfiguration() {
-    const logConfigFilePath = process.env.LOG_CONFIG_FILE;
-    if (logConfigFilePath) {
-        // const path1 = path.parse(logConfigFilePath);
-        const file = fs.readFileSync(logConfigFilePath, "utf-8");
-        console.log(file);
-        return JSON.parse(file);
-    }
+function readConfigFile(filePath) {
+  try {
+    const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error(`Error reading config file: ${error.message}`);
     return {};
+  }
 }
 
 function initConfig() {
-    const configs = Object.assign(defaults, getFileConfiguration());
+  const defaultConfig = {
+    logLevel: constants.level.INFO,
+    scoreLevel: constants.scoreLevel[constants.level.INFO],
+    appender: constants.appender.CONSOLE,
+    logConfigFile: process.env.LOG_CONFIG_FILE || "logger.json",
+  };
 
-    if (process.env.LOG_LEVEL) {
-        configs.level = process.env.LOG_LEVEL;
-    }
-    if (process.env.LOG_APPENDER) {
-        configs.appender = process.env.LOG_APPENDER;
-    }
+  const logLevel = process.env.LOG_LEVEL?.toUpperCase();
+  const appender = process.env.LOG_APPENDER?.toUpperCase();
+  const logConfigFile = process.env.LOG_CONFIG_FILE;
 
-    calculatePayload(configs);
+  if (logConfigFile) {
+    const fileConfig = readConfigFile(logConfigFile);
+    Object.assign(defaultConfig, fileConfig);
+  }
 
-    return configs;
+  if (logLevel && constants.level[logLevel]) {
+    defaultConfig.logLevel = logLevel;
+  }
+
+  if (appender && constants.appender[appender]) {
+    defaultConfig.appender = appender;
+  }
+
+  defaultConfig.scoreLevel = constants.scoreLevel[defaultConfig.logLevel];
+
+  const validLogLevels = new Set(Object.values(constants.level));
+
+  if (!validLogLevels.has(defaultConfig.logLevel)) {
+    console.error(
+      `Invalid LOG_LEVEL: ${defaultConfig.logLevel}. Using default level: ${constants.level.INFO}`
+    );
+    defaultConfig.logLevel = constants.level.INFO;
+  }
+
+  if (!constants.level[defaultConfig.logLevel]) {
+    console.error(
+      `Invalid LOG_LEVEL: ${defaultConfig.logLevel}. Using default level: ${constants.level.INFO}`
+    );
+    defaultConfig.logLevel = constants.level.INFO;
+  }
+
+  if (
+    defaultConfig.logLevel === constants.level.DEBUG ||
+    defaultConfig.logLevel === constants.level.TRACE
+  ) {
+    console.log("Enabling DEBUG/TRACE mode");
+  }
+
+  return defaultConfig;
 }
 
-function calculatePayload(configs) {
-    configs.level = configs.level.toUpperCase();
-    configs.levelScore = constants.levels[configs.level];
-}
-
-const configuration = initConfig();
-
-function config() {
-    return configuration;
-}
+const config = initConfig();
 
 export default config;
