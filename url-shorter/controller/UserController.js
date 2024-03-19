@@ -1,5 +1,6 @@
 import express, {Router} from "express";
 import UserService from "../service/UserService.js";
+import {checkCsrfTokenMiddleware} from "../middleware/csrfMiddleware.js";
 
 export default class UserController extends Router {
     constructor() {
@@ -18,9 +19,9 @@ export default class UserController extends Router {
             res.render("users", {users, csrfToken: req.session.csrfToken});
         })
 
-        this.all("/", (req, res) => {
-            res.send("UserController here!");
-        })
+        this.get("/:userId", (req, res, next) => {
+            // get all data by user and render UI
+        });
 
         this.get("/all", (req, res) => {
             const users = this.userService.getUsersPublicData();
@@ -29,15 +30,9 @@ export default class UserController extends Router {
         });
 
         this.post("/create",
-            (req, res, next) => {
-                if (req.session.csrfToken !== req.body.csrfToken) {
-                    return res.status(403);
-                }
-                next();
-            },
+            checkCsrfTokenMiddleware,
             (req, res) => {
                 const {name, password} = req.body;
-
 
                 try {
                     this.userService.create(name, password);
@@ -49,6 +44,10 @@ export default class UserController extends Router {
                     message: "Saved!"
                 });
             })
+
+        this.all("/", (req, res) => {
+            res.send("UserController here!");
+        })
     }
 
 
