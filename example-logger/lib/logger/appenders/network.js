@@ -1,23 +1,31 @@
 import net from "net";
-
+import config from "../config/config.js";
+import {Transform} from "stream";
 
 let client;
-const log = formatter => (date, level, category, message) => {
-    const data = formatter(date, level, category, message);
-    client.write(data);
-}
 
-function init(formatter) {
-    client = net.connect({port:config.appenderPort}, ()=>{
+function connect(inputStream, formatter) {
+
+    client = net.connect({port: config.network.port}, () => {
         console.log("Connected");
     });
 
-    process.on("exit", ()=>{
-        client.exit();
-    })
+    inputStream.pipe(formatter.transformer()).pipe(client);
 
 
-    return {log: log(formatter)}
+    process.on("exit", () => {
+        client.end();
+    });
+
+    client.on("error", () => {
+        console.log("CLIENT Error");
+        client.end();
+    });
+
+}
+
+function init(inputStream, formatter) {
+    connect(inputStream, formatter);
 }
 
 export default init;
