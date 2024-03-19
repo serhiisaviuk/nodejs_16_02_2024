@@ -38,9 +38,9 @@ function initControllers(app){
     app.use("/login", new LoginController())
     app.use("/code", new UrlController());
 
-    app.use(authorizedInSessionMiddleware)
+    // app.use(authorizedInSessionMiddleware)
     app.use("/user", new UserController());
-    app.use("/dashboard");
+    // app.use("/dashboard");
 
 }
 

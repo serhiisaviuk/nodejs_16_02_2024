@@ -1,4 +1,4 @@
-import express, {Router} from "express";
+import {Router} from "express";
 import UserService from "../service/UserService.js";
 import {checkCsrfTokenMiddleware} from "../middleware/csrfMiddleware.js";
 
@@ -20,7 +20,8 @@ export default class UserController extends Router {
         })
 
         this.get("/:userId", (req, res, next) => {
-            // get all data by user and render UI
+            const user = this.userService.getUser(req.params.userId);
+            res.json(user);
         });
 
         this.get("/all", (req, res) => {

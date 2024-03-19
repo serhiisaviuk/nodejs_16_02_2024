@@ -18,9 +18,11 @@
     "connect-redis": "^7.1.1",
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.9",
+    "example-logger": "file:/Users/s.saviuk/work/ithillel/nodejs16022024/example-logger",
     "express": "^4.18.3",
     "express-session": "^1.18.0",
     "lodash": "^4.17.21",
+    "pg": "^8.11.3",
     "pug": "^3.0.2",
     "redis": "^4.6.13"
   }
