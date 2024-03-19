@@ -1,17 +1,16 @@
 import * as constants from "./constants.js";
-import consoleApp from "./appenders/console.js";
+import config from "./config.js";
+import consoleAppender from "./appenders/console.js";
+import fileAppender from "./appenders/file.js";
 
 const appenders = {
-    [constants.appenders.console]: () => {
-        return consoleApp;
-    },
-    [undefined]: () => {
-        return consoleApp;
-    }
+  [constants.appender.CONSOLE]: consoleAppender,
+  [constants.appender.FILE]: fileAppender,
+  [undefined]: consoleAppender,
+};
+
+function getAppender() {
+  return appenders[config.appender];
 }
 
-function getAppender(appender) {
-    return appenders[appender]();
-}
-
-export default {getAppender};
+export { getAppender };
