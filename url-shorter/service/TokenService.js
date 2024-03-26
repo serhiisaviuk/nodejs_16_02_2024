@@ -13,36 +13,28 @@ export default class TokenService extends Instance {
     }
 
     generateToken(userId) {
-        // const payload = generateRandomString(32);
 
-        const payload = Buffer.from(JSON.stringify({
+        const payload = {
             userId,
             nonce: Date.now()
-        })).toString("base64");
+        };
 
-        const signature = crypto.createHmac("sha256", SECRET)
-            .update(payload)
-            .digest('base64');
+        const token = jwt.sign(payload, SECRET, {expiresIn:"10000"});
 
-        const token = `${payload}.${signature}`;
-        // storage.add(token)
-        return token;
+        const RefreshToken = jwt.sign(token, SECRET, {expiresIn:"7 days"});
+
+        return {token, RefreshToken};
     }
 
     checkToken(token) {
 
-        const [payload, signature] = token.split(".");
+        const payload = jwt.verify(token, SECRET)
 
-        const expectedSignature = crypto.createHmac("sha256", SECRET)
-            .update(payload)
-            .digest('base64');
-
-        if(signature === expectedSignature){
-            const o = JSON.parse(Buffer.from(payload, "base64").toString("utf8"));
-            return o.userId
+        if(payload.exp > Math.ceil(Date.now()/1000)){
+            return payload.userId
         }
+        return null;
 
-        return null; //TODO  new error
     }
 
     revokeToken(token) {
