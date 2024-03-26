@@ -11,8 +11,8 @@ export default class UserController extends Router {
     }
 
     init = () => {
-        this.get("/", (req, res) => {
-            const users = this.userService.getUsersPublicData();
+        this.get("/", async (req, res) => {
+            const users = await this.userService.getUsersPublicData();
 
             console.log(req.session.csrfToken);
 
@@ -31,12 +31,12 @@ export default class UserController extends Router {
         });
 
         this.post("/create",
-            checkCsrfTokenMiddleware,
-            (req, res) => {
+            // checkCsrfTokenMiddleware,
+            async (req, res) => {
                 const {name, password} = req.body;
 
                 try {
-                    this.userService.create(name, password);
+                    await this.userService.create(name, password);
                 } catch (e) {
                     console.log(e);
                 }

@@ -11,7 +11,7 @@ export default class UserService extends Instance {
         this.userRepository = new UserRepository();
     }
 
-    create(name, password) {
+    async create(name, password) {
         const user = new UserModel(generate(sequenceName), name, password);
 
         console.log(user);
@@ -19,8 +19,8 @@ export default class UserService extends Instance {
         this.userRepository.save(user);
     }
 
-    getUsersPublicData() {
-        const users = this.userRepository.getAll();
+    async getUsersPublicData() {
+        const users = await this.userRepository.getAll();
 
         const result = [];
         for (const user of users) {
