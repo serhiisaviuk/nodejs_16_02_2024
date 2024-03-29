@@ -13,10 +13,10 @@ export default class LoginController extends Router {
             res.render("login", {errorMessage:""})
         });
 
-        this.post("/", (req, res) => {
+        this.post("/", async (req, res) => {
             const {login, password} = req.body;
 
-            if (this.userService.checkPassword(login, password)) {
+            if (await this.userService.checkPassword(login, password)) {
                 req.session.login = login;
                 res.redirect(302, "/user");
             } else {

@@ -5,6 +5,7 @@ import Instance from "../helper/Instance.js";
 import config from "../config.js";
 import generateRandomString from "../utils/cryptoRandomString.js";
 import crypto from "crypto";
+import * as bcrypt from "bcrypt";
 
 
 const sequenceName = "user";
@@ -17,23 +18,15 @@ export default class UserService extends Instance {
 
     async create(name, password) {
 
-        const user = new UserModel(generate(sequenceName), name, this.hashPassword(password));
+        const user = new UserModel(generate(sequenceName), name, await this.hashPassword(password));
 
         console.log(user);
 
         this.userRepository.save(user);
     }
 
-    hashPassword(input, salt = Buffer.from(generateRandomString(16)).toString("base64")) {
-        //salt
-        const peperSecret = config.serverPeper;
-
-        const password = crypto.createHmac("sha256", peperSecret)
-            .update(input)
-            .update(salt)
-            .digest('base64')
-
-        return `${salt}.${password}`
+    async hashPassword(input) {
+        return await bcrypt.hash(input, 10);
     }
 
     async getUsersPublicData() {
@@ -52,16 +45,15 @@ export default class UserService extends Instance {
         return filterUserData(user);
     }
 
-    checkPassword(name, password) {
+    async checkPassword(name, password) {
         if (!name || !password) {
             return false;
         }
 
         const user = this.userRepository.getUserByName(name);
 
-        const [salt, passwordHash] = user.password.split(".");
-
-        if (user?.password === this.hashPassword(password, salt)) {
+        const result = await bcrypt.compare(password, user.password);
+        if (result) {
             return true;
         }
 
