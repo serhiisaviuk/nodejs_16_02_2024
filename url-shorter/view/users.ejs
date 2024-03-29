@@ -7,14 +7,17 @@
             display: flex;
             justify-content: space-between;
         }
+
         .user-form {
             width: 50%;
         }
+
         .user-list {
             width: 45%;
             border-left: 2px solid #000;
             padding-left: 20px;
         }
+
         .error-message, .success-message {
             color: #ff0000;
             font-weight: bold;
@@ -34,7 +37,7 @@
                 <label for="password">Пароль:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <input id="__csrfToken" type="hidden" value="<%= csrfToken%>">
+            <input id="__csrfToken" type="hidden" value="<%= csrfToken %>">
             <button type="submit">Створити</button>
             <div id="responseMessage"></div>
         </form>
@@ -49,46 +52,64 @@
     </div>
 </div>
 <script>
-    document.getElementById('userForm').addEventListener('submit', function(event) {
+    document.getElementById('userForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const formData = {
-            name: document.getElementById("name").value,
-            password: document.getElementById("password").value,
-            csrfToken: document.getElementById("__csrfToken").value
-        }
-
-        console.log(JSON.stringify(formData));
-        fetch('/user/create', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
+        window.crypto.subtle.generateKey(
+            {
+                name: "HMAC",
+                hash: {name: "SHA-512"}
             },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Network response was not ok.');
-            })
-            .then(data => {
-                document.getElementById('responseMessage').innerHTML = '<span class="success-message">Користувача створено успішно!</span>';
+            true,
+            ["sign", "verify"]
+        ).then(async (key) => {
+            // let password = await window.crypto.subtle.sign("HMAC", key, (document.getElementById("password").value));
 
-                const userList = document.getElementById('users-list');
-                const newUserItem = document.createElement('li');
-                newUserItem.textContent = formData.name;
-                userList.appendChild(newUserItem);
+            const formData = {
+                name: document.getElementById("name").value,
+                password: "password",
+                csrfToken: document.getElementById("__csrfToken").value
+            }
+
+            await send(formData);
+        })
+
+
+        async function send(data) {
+
+            console.log(JSON.stringify(data));
+
+            fetch('/user/create', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
             })
-            .catch(error => {
-                if (error.message === '400') {
-                    document.getElementById('responseMessage').innerHTML = '<span class="error-message">Помилка при створенні користувача: неправильні дані.</span>';
-                } else if (error.message === '500') {
-                    document.getElementById('responseMessage').innerHTML = '<span class="error-message">Помилка сервера. Спробуйте пізніше.</span>';
-                } else {
-                    document.getElementById('responseMessage').innerHTML = '<span class="error-message">' + error.message + '</span>';
-                }
-            });
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    document.getElementById('responseMessage').innerHTML = '<span class="success-message">Користувача створено успішно!</span>';
+
+                    const userList = document.getElementById('users-list');
+                    const newUserItem = document.createElement('li');
+                    newUserItem.textContent = data.name;
+                    userList.appendChild(newUserItem);
+                })
+                .catch(error => {
+                    if (error.message === '400') {
+                        document.getElementById('responseMessage').innerHTML = '<span class="error-message">Помилка при створенні користувача: неправильні дані.</span>';
+                    } else if (error.message === '500') {
+                        document.getElementById('responseMessage').innerHTML = '<span class="error-message">Помилка сервера. Спробуйте пізніше.</span>';
+                    } else {
+                        document.getElementById('responseMessage').innerHTML = '<span class="error-message">' + error.message + '</span>';
+                    }
+                });
+        }
     });
 </script>
 </body>

@@ -46,6 +46,7 @@ export default class UserController extends Router {
                 });
             })
 
+
         this.all("/", (req, res) => {
             res.send("UserController here!");
         })
