@@ -43,7 +43,7 @@ function initControllers(app){
     app.use("/token", new TokenController());
     app.use("/login", new LoginController())
 
-    app.use(bearerAuthMiddleware);
+    // app.use(bearerAuthMiddleware);
     app.use("/code", new UrlController());
     // app.use(authorizedInSessionMiddleware)
     app.use("/user", new UserController());

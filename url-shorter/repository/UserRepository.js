@@ -6,20 +6,19 @@ import Users from "../entity/Users.js";
 
 const map = new Map();
 map.set("1", {userId: "userId", name: "qwe", password: "qwe"});
+map.set("2", {userId: "userId1", name: "serhii", password: "admin"});
 
 
 export default class UserRepository {
     async save(user) {
 
-        // await knexClient("users").insert({
-        //     login: "Name1",
-        //     email: "test1@test.com",
-        //     data: {test: "My text", money: 100}
-        // })
+        map.set(user.userId, user);
 
-        await Users.query().insert({
-            login: "Test123",
-        });
+        // await knexClient("users").insert(user)
+
+        // await Users.query().insert({
+        //     login: "Test123",
+        // });
     }
 
     async get(userId) {
@@ -49,9 +48,7 @@ export default class UserRepository {
 
         // console.log(result);
 
-        const result = await Users.query().findById("admin");
-
-        console.log(result.getName());
+        const result = await Users.query();
 
         return result;
     }
