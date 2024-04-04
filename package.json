@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon lesson6/app.js",
-    "test": "test"
+    "test": "jest",
+    "test-integration": "node --experimental-vm-modules node_modules/jest-cli/bin/jest.js --match=**.it.js"
   },
   "keywords": [
     "hillel",
@@ -31,5 +32,8 @@
     "redis": "^4.6.13",
     "socket.io": "^4.7.5",
     "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

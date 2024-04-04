@@ -13,7 +13,7 @@ export default class CodeService extends Instance{
 
     generateCode(){
         let code = generateString(5);
-        if (this.isCodeExist(code)){
+        if (this.#isCodeExist(code)){
             code = this.generateCode()
         }
 
@@ -21,7 +21,7 @@ export default class CodeService extends Instance{
     }
 
 
-    isCodeExist(code){
+    #isCodeExist(code){
         return this.#urlRepository.isExist(code)
     }
 }

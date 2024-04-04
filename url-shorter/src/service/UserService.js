@@ -2,9 +2,6 @@ import UserRepository from "../repository/UserRepository.js";
 import UserModel from "../models/UserModel.js";
 import {generate} from "../utils/storageGenerators.js";
 import Instance from "../helper/Instance.js";
-import config from "../config.js";
-import generateRandomString from "../utils/cryptoRandomString.js";
-import crypto from "crypto";
 import * as bcrypt from "bcrypt";
 
 
