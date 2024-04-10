@@ -41,11 +41,15 @@ function bearerAuthMiddleware(req, res, next) {
 }
 
 function authorizedInSessionMiddleware(req, res, next) {
-    if (req.session.login) {
+    if (req.session.email) {
         return next();
     }
 
-    res.status(401).send("Unauthorized");
+    if (req.method === "GET") {
+        res.redirect(302, "/login");
+    } else {
+        res.status(401).send("Unauthorized");
+    }
 }
 
 export {

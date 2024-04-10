@@ -39,7 +39,7 @@ export default class RegistrationController extends Router {
 
             req.session.email = email;
 
-            res.redirect(302, "/user");
+            res.redirect(302, "/dashboard");
 
             // res.status(200).json()
         })

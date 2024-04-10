@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Short URL Service</title>
+    <style>
+        /* Basic styling for the dashboard */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .expandable-content {
+            display: none;
+            margin-top: 10px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Dashboard Overview</h2>
+    <p><strong>Total Short URLs:</strong> [Total URLs Count]</p>
+    <p><strong>Total Visits:</strong> [Total Visits Count]</p>
+</div>
+
+<div class="container">
+    <h2>Top 10 Short URLs by You</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Alias</th>
+            <th>Code</th>
+            <th>Visits</th>
+            <th>Expand</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Dynamically populate this table with the top 10 URLs created by the logged-in user -->
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h2>Top 10 Short URLs in System</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Alias</th>
+            <th>Code</th>
+            <th>Visits</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Dynamically populate this table with the overall top 10 URLs -->
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h2>Top 10 Rate Limits by Code</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Rate Limit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Dynamically populate with top 10 rate-limits -->
+        </tbody>
+    </table>
+    <p><a href="/rate-limits">View full list of rate limits</a></p>
+</div>
+
+<script>
+    // Example of JavaScript to toggle expandable content for a URL details (This is a placeholder, adjust as needed)
+    function toggleExpand(contentId) {
+        var content = document.getElementById(contentId);
+        content.style.display = content.style.display === "none" ? "block" : "none";
+    }
+</script>
+
+</body>
+</html>
