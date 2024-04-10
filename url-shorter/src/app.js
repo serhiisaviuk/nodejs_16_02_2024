@@ -6,9 +6,8 @@ import socketIo from "./view/socketIo.js";
 import http from "http";
 
 const log = exampleLogger.getLogger("app.js");
-const app = express();
 
-webContext(app);
+const app = webContext();
 
 const server = http.createServer(app);
 

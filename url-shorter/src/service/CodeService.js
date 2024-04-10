@@ -1,6 +1,6 @@
 import Instance from "../helper/Instance.js";
 import {generateString} from "../utils/randomString.js";
-import UrlRepository from "../repository/UrlRepository.js";
+import UrlRepository, {isExist} from "../repository/UrlRepository.js";
 
 export default class CodeService extends Instance{
     #urlRepository;
@@ -8,7 +8,7 @@ export default class CodeService extends Instance{
     constructor(props) {
         super(props);
 
-        this.#urlRepository = UrlRepository.getInstance();
+        this.#urlRepository = new UrlRepository();
     }
 
     generateCode(){
@@ -22,6 +22,6 @@ export default class CodeService extends Instance{
 
 
     #isCodeExist(code){
-        return this.#urlRepository.isExist(code)
+        return isExist(code);
     }
 }

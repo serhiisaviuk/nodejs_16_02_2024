@@ -13,6 +13,9 @@ import {
 import UserController from "./controller/UserController.js";
 import UrlController from "./controller/UrlController.js";
 import TokenController from "./controller/TokenController.js";
+import ValidationError from "./error/ValidationError.js";
+
+const app = express();
 
 function initMiddlewares(app){
     app.use(express.json());
@@ -61,15 +64,29 @@ function initViews(app){
 
 function initErrorHandling(app){
     app.use((err, req, res, next) => {
-        console.log(err);
+
+        if(err instanceof HttpStatusError){
+            res.status(err.httpStatus())
+        }
+
+
+        if(err instanceof ValidationError){
+            return res.send(`Fields error: ${err.fields}`);
+        }
+
+        if(err instanceof Error && req.method === "POST"){
+            res.status(500).json({error: err.message})
+        }
 
         res.status(500).send(err.message);
     });
 }
 
-export default function (app){
+export default function (){
     initMiddlewares(app);
     initViews(app);
     initControllers(app)
     initErrorHandling(app);
+
+    return app;
 }

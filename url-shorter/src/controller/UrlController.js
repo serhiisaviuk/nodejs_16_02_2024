@@ -27,5 +27,7 @@ export default class UrlController extends Router {
 
                 res.send();
             });
+
+
     }
 }

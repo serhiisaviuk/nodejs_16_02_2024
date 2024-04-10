@@ -21,9 +21,9 @@ export default class TokenService extends Instance {
 
         const token = jwt.sign(payload, SECRET, {expiresIn:"10000"});
 
-        const RefreshToken = jwt.sign(token, SECRET, {expiresIn:"7 days"});
+        // const RefreshToken = jwt.sign(token, SECRET, {expiresIn:"1h"});
 
-        return {token, RefreshToken};
+        return {token};
     }
 
     checkToken(token) {

@@ -1,5 +1,8 @@
 import {jest} from '@jest/globals';
 
+import UserRepository from "../../src/repository/UserRepository.js";
+import CodeService from "../../src/service/CodeService.js";
+
 let service;
 
 const mockRepositoryIsExist = jest.fn();
@@ -8,19 +11,14 @@ describe("TEst", () => {
 
     beforeAll(async () => {
 
-        jest.mock("../../src/repository/UrlRepository.js", ()=>{
+        jest.mock("../../src/repository/UrlRepository.js", () => {
             return {
-                getInstance(){
-                    console.log("GET INSTANCE");
-
-                    return {
-                        isExist: mockRepositoryIsExist
-                    }
-                }
+                isExist: mockRepositoryIsExist
             }
-        })
+        });
 
-        const CodeService = (await import( "../../src/service/CodeService.js")).default;
+        // const CodeService = (await import( "../../src/service/CodeService.js")).default;
+
 
         service = new CodeService();
     });
@@ -29,10 +27,11 @@ describe("TEst", () => {
     it("call generateString few times, when first try generate already existed code", () => {
         mockRepositoryIsExist.mockImplementation(() => {
             console.log("MOCK RUN");
-            return true;
+            return false;
         });
 
         const generateCode = service.generateCode();
+
         console.log(generateCode);
     });
 

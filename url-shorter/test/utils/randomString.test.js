@@ -5,13 +5,13 @@ const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 
 describe("randomString Util", () => {
 
-    beforeAll(() => {
-        console.log("BEFORE aLL");
-    });
-
-    afterEach(() => {
-        console.log("AfterEach");
-    })
+    // beforeAll(() => {
+    //     console.log("BEFORE aLL");
+    // });
+    //
+    // afterEach(() => {
+    //     console.log("AfterEach");
+    // })
 
     test("should return random string with length 5", () => {
         const GENERATED_LENGTH = 5;
