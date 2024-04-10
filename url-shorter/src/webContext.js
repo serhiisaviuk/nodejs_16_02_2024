@@ -17,6 +17,7 @@ import ValidationError from "./error/ValidationError.js";
 import RegistrationController from "./controller/RegistrationController.js";
 import HttpStatusError from "./error/HttpStatusError.js";
 import DashboardController from "./controller/DashboardController.js";
+import RedirectController from "./controller/RedirectController.js";
 
 const app = express();
 
@@ -49,10 +50,11 @@ function initControllers(app) {
     app.use("/login", new LoginController());
     app.use("/registration", new RegistrationController());
 
+    app.use("/r", new RedirectController());
 
     // app.use(bearerAuthMiddleware);
     app.use(authorizedInSessionMiddleware)
-    app.use("/code", new UrlController()); //TODO split on different controllers
+    app.use("/code", new UrlController());
     app.use("/user", new UserController());
     app.use("/dashboard", new DashboardController());
 

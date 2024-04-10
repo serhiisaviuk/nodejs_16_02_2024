@@ -8,16 +8,11 @@ export default class UrlController extends Router {
 
     constructor() {
         super();
-        this.initController();
+        this.initRoutes();
         this.#urlService = UrlService.getInstance();
     }
 
-    initController = () => {
-        this.get("/:code", (req, res) => {
-            const url = this.#urlService.visitUrl(req.params.code);
-
-            res.redirect(302, url);
-        })
+    initRoutes = () => {
 
         this.post("/",
             authorizedInSessionMiddleware,
@@ -27,6 +22,11 @@ export default class UrlController extends Router {
 
                 res.send();
             });
+
+        //TODO create URL
+        // turn off/on url
+        // add to api length and custom code
+        // add expire date support
 
 
     }

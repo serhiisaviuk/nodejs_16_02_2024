@@ -10,6 +10,12 @@ export default class UserController extends Router {
         this.init()
     }
 
+
+    //TODO
+    // user creation
+    // admin creation
+    // admin remove user + cascading url
+
     init = () => {
         this.get("/", async (req, res) => {
             const users = {}

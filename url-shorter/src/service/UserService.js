@@ -4,7 +4,6 @@ import * as bcrypt from "bcrypt";
 import ValidationError from "../error/ValidationError.js";
 
 
-
 export default class UserService extends Instance {
     constructor() {
         super();
@@ -20,9 +19,7 @@ export default class UserService extends Instance {
 
         const passwordHash = await this.hashPassword(password);
 
-        const user = await this.userRepository.createUser(email, passwordHash);
-
-        return true;
+        await this.userRepository.createUser(email, passwordHash);
     }
 
     async hashPassword(input) {
