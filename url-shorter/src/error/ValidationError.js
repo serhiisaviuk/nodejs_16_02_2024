@@ -1,21 +1,16 @@
-export default class ValidationError extends HttpStatusError, Error{
-    constructor(message, fields) {
+import HttpStatusError from "./HttpStatusError.js";
+
+export default class ValidationError extends HttpStatusError {
+    constructor(message, field) {
         super(message);
-        this.fields = fields
+        this.field = field
     }
 
-    get fields(){
-        return this.fields;
+    get field() {
+        return this.field;
     }
 
-    get httpStatus(){
+    get httpStatus() {
         return 422
-    }
-}
-
-
-class HttpStatusError{
-    httpStatus(){
-        throw "non-implemented";
     }
 }

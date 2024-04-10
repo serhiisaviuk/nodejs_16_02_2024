@@ -1,9 +1,11 @@
-const config = {
+import config from "./url-shorter/src/config.js";
+
+const dbConfig = {
   client: "pg",
-  connection: "postgresql://127.0.0.1:5432/hillel"
+  connection: config.postgresUrl
 };
 
 export default  {
-  development: config,
-  production: config
+  development: dbConfig,
+  production: dbConfig
 };

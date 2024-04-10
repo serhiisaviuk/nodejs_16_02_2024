@@ -1,11 +1,9 @@
 import UserRepository from "../repository/UserRepository.js";
-import UserModel from "../models/UserModel.js";
-import {generate} from "../utils/storageGenerators.js";
 import Instance from "../helper/Instance.js";
 import * as bcrypt from "bcrypt";
+import ValidationError from "../error/ValidationError.js";
 
 
-const sequenceName = "user";
 
 export default class UserService extends Instance {
     constructor() {
@@ -13,13 +11,18 @@ export default class UserService extends Instance {
         this.userRepository = new UserRepository();
     }
 
-    async create(name, password) {
+    async create(email, password) {
+        const isExist = await this.userRepository.isUserExist(email);
 
-        const user = new UserModel(generate(sequenceName), name, await this.hashPassword(password));
+        if (isExist) {
+            throw new ValidationError("User already exist");
+        }
 
-        console.log(user);
+        const passwordHash = await this.hashPassword(password);
 
-        this.userRepository.save(user);
+        const user = await this.userRepository.createUser(email, passwordHash);
+
+        return true;
     }
 
     async hashPassword(input) {

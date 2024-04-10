@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon lesson6/app.js",
+    "db:migration": "knex migrate:latest",
     "test": "jest",
     "test-integration": "node --experimental-vm-modules node_modules/jest-cli/bin/jest.js --match=**.it.js"
   },
@@ -24,6 +25,7 @@
     "example-logger": "file:./example-logger",
     "express": "^4.18.3",
     "express-session": "^1.18.0",
+    "joi": "^17.12.3",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "lodash": "^4.17.21",

@@ -12,7 +12,8 @@ export default class UserController extends Router {
 
     init = () => {
         this.get("/", async (req, res) => {
-            const users = await this.userService.getUsersPublicData();
+            const users = {}
+                // await this.userService.getUsersPublicData();
 
             console.log(req.session.csrfToken);
 

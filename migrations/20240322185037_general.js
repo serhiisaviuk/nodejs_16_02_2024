@@ -1,32 +1,30 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-export function up(knex) {
-  return knex.schema
-      .createTable("users", table =>{
-      table.increments("id").primary();
-      table.string("login").unique().notNullable();
-      table.string("email").unique();
-      table.timestamp("created_at", {useTz: false});
-      table.jsonb("data");
-  })
-      .createTable("url_shorter", table=>{
-          table.increments("id").primary();
-          table.string("code", 100).unique();
-          table.string("url");
-          // table.integer("user_id");
-              // .references("users")
+const USER_TABLE = "users";
+const URL_SHORTER_TABLE = "url_shorter";
 
-          // table.foreign("user_id")
-          //     .references("users")
-      })
+export function up(knex) {
+
+    return knex.schema
+        .createTable(USER_TABLE, table => {
+            table.increments("id").primary();
+            table.string("email").unique();
+            table.string("password");
+            table.timestamp("created_at", {useTz: false}).defaultTo(knex.fn.now());
+            ;
+        })
+        .createTable(URL_SHORTER_TABLE, table => {
+            table.increments("id").primary();
+            table.string("code", 255).unique();
+            table.string("url");
+            table.string("alias");
+            table.integer("visits").defaultTo(0);
+            table.timestamp("created_at", {useTz: false}).defaultTo(knex.fn.now());
+            table.timestamp("expired_at", {useTz: false});
+
+            table.integer("user_id");
+            table.foreign("user_id").references("id").inTable(USER_TABLE)
+        })
 }
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 export function down(knex) {
 
     return knex.schema

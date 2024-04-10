@@ -1,35 +1,24 @@
 import {Model} from "objection";
 
-export default class Users extends Model {
+export default class User extends Model {
     static get tableName() {
         return "users"
     }
 
     static get idColumn() {
-        return "login"
+        return "email"
     }
 
     static get jsonSchema() {
         return {
             type: "object",
-            required: ["login", "email"],
+            required: ["email", "password"],
             properties: {
                 id: {type: "integer"},
-                login: {type: "string", maxLength: 100},
                 email: {type: "string"},
+                password: {type: "string"},
                 created_at: {type: "string", format: "date-time"},
-                data: {type: "object"},
             }
         }
-    }
-
-
-    static get relationMappings(){
-        return
-    }
-
-
-    getName(){
-        return this.login
     }
 }

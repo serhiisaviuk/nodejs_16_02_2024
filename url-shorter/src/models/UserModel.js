@@ -3,8 +3,7 @@ export default class UserModel{
     name;
     password;
 
-    constructor(userId, name, password) {
-        this.userId = userId;
+    constructor(name, password) {
         this.name = name;
         this.password = password;
     }

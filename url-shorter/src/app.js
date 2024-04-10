@@ -1,9 +1,11 @@
-import express from "express"
-import webContext from "./webContext.js";
-import exampleLogger from "example-logger";
-import webSocket from "./webSocket.js";
-import socketIo from "./view/socketIo.js";
 import http from "http";
+
+import exampleLogger from "example-logger";
+import webContext from "./webContext.js";
+import socketIo from "./view/socketIo.js";
+
+import "./postres/client_knex.js";
+
 
 const log = exampleLogger.getLogger("app.js");
 

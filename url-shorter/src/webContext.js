@@ -14,10 +14,12 @@ import UserController from "./controller/UserController.js";
 import UrlController from "./controller/UrlController.js";
 import TokenController from "./controller/TokenController.js";
 import ValidationError from "./error/ValidationError.js";
+import RegistrationController from "./controller/RegistrationController.js";
+import HttpStatusError from "./error/HttpStatusError.js";
 
 const app = express();
 
-function initMiddlewares(app){
+function initMiddlewares(app) {
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
 
@@ -32,19 +34,20 @@ function initMiddlewares(app){
         name: "sessionId",
         cookie: {
             httpOnly: true,
-            domain: "127.0.0.1",
         }
     }));
     app.use(initCsrfTokenMiddleware);
 }
 
-function initControllers(app){
+function initControllers(app) {
     app.all("/", (req, res) => {
         res.send("Works!");
     });
 
     app.use("/token", new TokenController());
-    app.use("/login", new LoginController())
+    app.use("/login", new LoginController());
+    app.use("/registration", new RegistrationController());
+
 
     // app.use(bearerAuthMiddleware);
     app.use("/code", new UrlController());
@@ -54,7 +57,7 @@ function initControllers(app){
 
 }
 
-function initViews(app){
+function initViews(app) {
 
     app.set("views", "view");
     app.set("view engine", "ejs");
@@ -62,19 +65,19 @@ function initViews(app){
 
 }
 
-function initErrorHandling(app){
+function initErrorHandling(app) {
     app.use((err, req, res, next) => {
 
-        if(err instanceof HttpStatusError){
+        if (err instanceof HttpStatusError) {
             res.status(err.httpStatus())
         }
 
 
-        if(err instanceof ValidationError){
+        if (err instanceof ValidationError) {
             return res.send(`Fields error: ${err.fields}`);
         }
 
-        if(err instanceof Error && req.method === "POST"){
+        if (err instanceof Error && req.method === "POST") {
             res.status(500).json({error: err.message})
         }
 
@@ -82,7 +85,7 @@ function initErrorHandling(app){
     });
 }
 
-export default function (){
+export default function () {
     initMiddlewares(app);
     initViews(app);
     initControllers(app)
