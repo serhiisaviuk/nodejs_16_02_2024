@@ -2,6 +2,7 @@ import {Router} from "express";
 import UrlService from "../service/UrlService.js";
 
 export default class RedirectController extends Router{
+    #urlService;
 
     constructor() {
         super();

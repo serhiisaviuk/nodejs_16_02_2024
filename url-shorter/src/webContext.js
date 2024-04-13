@@ -10,7 +10,7 @@ import {
     basicAuthorizationMiddleware,
     bearerAuthMiddleware
 } from "./middleware/authMiddleware.js";
-import UserController from "./controller/UserController.js";
+import AdminController from "./controller/AdminController.js";
 import UrlController from "./controller/UrlController.js";
 import TokenController from "./controller/TokenController.js";
 import ValidationError from "./error/ValidationError.js";
@@ -43,7 +43,7 @@ function initMiddlewares(app) {
 
 function initControllers(app) {
     app.all("/", (req, res) => {
-        res.send("Works!");
+        res.redirect(301, "/dashboard");
     });
 
     app.use("/token", new TokenController());
@@ -55,7 +55,7 @@ function initControllers(app) {
     // app.use(bearerAuthMiddleware);
     app.use(authorizedInSessionMiddleware)
     app.use("/code", new UrlController());
-    app.use("/user", new UserController());
+    app.use("/admin", new AdminController());
     app.use("/dashboard", new DashboardController());
 
 }
@@ -75,13 +75,12 @@ function initErrorHandling(app) {
             res.status(err.httpStatus())
         }
 
-
         if (err instanceof ValidationError) {
             return res.send(`Fields error: ${err.fields}`);
         }
 
         if (err instanceof Error && req.method === "POST") {
-            res.status(500).json({error: err.message})
+            return res.status(500).json({error: err.message})
         }
 
         res.status(500).send(err.message);

@@ -6,6 +6,14 @@ export default class UserRepository {
         return User.query().findById(email);
     }
 
+    async findAll(){
+        return User.query();
+    }
+
+    async find(){
+        return User.query();
+    }
+
     async isUserExist(email) {
         const countResult = await User.query().findById(email).count();
         return countResult > 0;
@@ -15,7 +23,7 @@ export default class UserRepository {
         await User.query().insert({
             email,
             password
-        })
+        });
     }
 
     async deleteById(id){

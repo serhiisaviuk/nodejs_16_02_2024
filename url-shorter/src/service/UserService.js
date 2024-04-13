@@ -28,51 +28,51 @@ export default class UserService extends Instance {
         return await bcrypt.hash(input, 10);
     }
 
-    async getUsersPublicData() {
-        const users = await this.userRepository.getAll();
-
-        const result = [];
-        for (const user of users) {
-            result.push(filterUserData(user))
+    async getUsers(offset = 0, limit = 0) {
+        let users;
+        if (offset === 0 && limit === 0) {
+            users = await this.userRepository.findAll();
+        } else {
+            users = await this.userRepository.find(offset, limit);
         }
 
-        return result;
+        return users.map(filterUserData);
     }
 
-    getUser(userId) {
-        const user = this.userRepository.get(userId);
-        return filterUserData(user);
-    }
+    async checkPassword(email, password) {
+        if (!email) {
+            throw new ValidationError("parameter not provided", "email");
+        }
 
-    async checkPassword(name, password) {
-        if (!name || !password) {
+        if(!password){
+            throw new ValidationError("parameter not provided", "password");
+        }
+
+        const user = await this.userRepository.findByEmail(email);
+
+        if(!user){
             return false;
         }
 
-        const user = this.userRepository.getUserByName(name);
-
         const result = await bcrypt.compare(password, user.password);
-        if (result) {
-            return true;
-        }
 
-        return false;
+        return !!result;
     }
 
-    async deleteById(id){
+    async deleteById(id) {
         try {
             this.userRepository.deleteById(id);
         } catch (e) {
             log.error(e);
         }
     }
-
 }
 
 
 function filterUserData(user) {
     return {
         userId: user.userId,
-        name: user.name
+        name: user.name,
+        createdAt: user.created_at
     }
 }

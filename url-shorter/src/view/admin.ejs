@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        button {
+            cursor: pointer;
+            padding: 5px 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .filter-section input, .filter-section select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Create User</h2>
+    <form id="createUserForm">
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <select name="role" id="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Create User</button>
+    </form>
+</div>
+
+<div class="container">
+    <h2>List of Users</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created Date</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="userList">
+        <!-- User list will be populated here -->
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h2>Rate Limits</h2>
+    <div class="filter-section">
+        <select id="filterType">
+            <option value="code">Code</option>
+            <option value="ip">IP</option>
+            <option value="user">User</option>
+        </select>
+        <input type="text" id="filterText" placeholder="Enter search text">
+        <button onclick="applyFilters()">Apply Filters</button>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>IP</th>
+            <th>User</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="rateLimitList">
+        <!-- Rate limit list will be populated here -->
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    document.getElementById('createUserForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        createUser();
+    });
+
+    function createUser() {
+        // Implement AJAX to send form data to your server and handle response
+    }
+
+    function deleteUser(userId) {
+        // Implement AJAX to delete user by userId
+    }
+
+    function deleteRateLimit(rateLimitId) {
+        // Implement AJAX to delete rate limit by rateLimitId
+    }
+
+    function applyFilters() {
+        const filterType = document.getElementById('filterType').value;
+        const filterText = document.getElementById('filterText').value.trim();
+
+        // Here you should add the AJAX call to fetch the filtered data
+        // This is a basic structure of what the AJAX call might look like:
+        fetch('/api/rate-limits', {
+            method: 'POST', // Or 'GET', depending on how your API is designed
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filterType: filterType, filterText: filterText })
+        })
+            .then(response => response.json())
+            .then(data => {
+                populateRateLimits(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function populateRateLimits(data) {
+        const tableBody = document.getElementById('rateLimitList');
+        tableBody.innerHTML = ''; // Clear existing entries
+
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${item.code}</td>
+                         <td>${item.ip}</td>
+                         <td>${item.user}</td>
+                         <td><button onclick="deleteRateLimit(${item.id})">Delete</button></td>`;
+            tableBody.appendChild(row);
+        });
+    }
+
+</script>
+</body>
+</html>

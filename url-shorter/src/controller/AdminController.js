@@ -2,7 +2,7 @@ import {Router} from "express";
 import UserService from "../service/UserService.js";
 import {allow} from "../middleware/authMiddleware.js"
 
-export default class UserController extends Router {
+export default class AdminController extends Router {
     constructor() {
         super();
         this.userService = UserService.getInstance();
@@ -10,40 +10,29 @@ export default class UserController extends Router {
         this.init()
     }
 
-
-    //TODO
-    // user creation
-    // admin creation
-    // admin remove user + cascading url
-
     init = () => {
         this.get("/", async (req, res) => {
             const users = {}
-            // await this.userService.getUsersPublicData();
+            await this.userService.getUsers();
 
-            res.render("users", {users, csrfToken: req.session.csrfToken});
+            res.render("admin", {users, csrfToken: req.session.csrfToken});
         })
 
-        this.get("/:userId", (req, res, next) => {
-            const user = this.userService.getUser(req.params.userId);
-            res.json(user);
-        });
-
-        this.get("/all", (req, res) => {
-            const users = this.userService.getUsersPublicData();
+        this.get("/user/all", (req, res) => {
+            const users = this.userService.getUsers();
 
             res.json(users);
         });
 
-        this.post("/create",
-            // checkCsrfTokenMiddleware,
+        this.post("/user/create",
+            // checkCsrfTokenMiddleware, TODO don't' forget
             async (req, res) => {
                 const {name, password} = req.body;
 
                 try {
                     await this.userService.create(name, password);
                 } catch (e) {
-                    console.log(e);
+                   throw e;
                 }
 
                 res.send({
@@ -51,16 +40,12 @@ export default class UserController extends Router {
                 });
             })
 
-        this.delete("/:userId", allow("ADMIN"), (req, res) => {
+        this.delete("/user/:userId", allow("ADMIN"), (req, res) => {
             this.userService.deleteById(req.params.userId)
 
             res.json({message:"Deleted"});
         });
 
-
-        this.all("/", (req, res) => {
-            res.send("UserController here!");
-        })
     }
 
 
