@@ -48,9 +48,22 @@
         button:hover {
             background-color: #0056b3;
         }
-        .filter-section input, .filter-section select {
-            padding: 5px;
-            margin-right: 10px;
+        .form-field {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            padding: 8px;
+            width: 95%;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .filter-section {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -58,12 +71,21 @@
 <div class="container">
     <h2>Create User</h2>
     <form id="createUserForm">
-        <input type="email" id="email" name="email" placeholder="Email" required>
-        <input type="password" id="password" name="password" placeholder="Password" required>
-        <select name="role" id="role">
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-        </select>
+        <div class="form-field">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-field">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="form-field">
+            <label for="role">Role:</label>
+            <select name="role" id="role">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
         <button type="submit">Create User</button>
     </form>
 </div>
@@ -88,12 +110,18 @@
 <div class="container">
     <h2>Rate Limits</h2>
     <div class="filter-section">
-        <select id="filterType">
-            <option value="code">Code</option>
-            <option value="ip">IP</option>
-            <option value="user">User</option>
-        </select>
-        <input type="text" id="filterText" placeholder="Enter search text">
+        <div class="form-field">
+            <label for="filterType">Filter Type:</label>
+            <select id="filterType">
+                <option value="code">Code</option>
+                <option value="ip">IP</option>
+                <option value="user">User</option>
+            </select>
+        </div>
+        <div class="form-field">
+            <label for="filterText">Search:</label>
+            <input type="text" id="filterText" placeholder="Enter search text">
+        </div>
         <button onclick="applyFilters()">Apply Filters</button>
     </div>
     <table>
@@ -110,7 +138,6 @@
         </tbody>
     </table>
 </div>
-
 
 <script>
     document.getElementById('createUserForm').addEventListener('submit', function(event) {

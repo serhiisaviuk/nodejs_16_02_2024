@@ -13,19 +13,23 @@ export default class UserService extends Instance {
     }
 
     async create(email, password) {
+        if (!email) {
+            throw new ValidationError("parameter not provided", "email");
+        }
+
+        if(!password){
+            throw new ValidationError("parameter not provided", "password");
+        }
+
         const isExist = await this.userRepository.isUserExist(email);
 
         if (isExist) {
             throw new ValidationError("User already exist");
         }
 
-        const passwordHash = await this.hashPassword(password);
+        const passwordHash = await hashPassword(password);
 
         await this.userRepository.createUser(email, passwordHash);
-    }
-
-    async hashPassword(input) {
-        return await bcrypt.hash(input, 10);
     }
 
     async getUsers(offset = 0, limit = 0) {
@@ -61,17 +65,22 @@ export default class UserService extends Instance {
 
     async deleteById(id) {
         try {
-            this.userRepository.deleteById(id);
+            await this.userRepository.deleteById(id);
         } catch (e) {
             log.error(e);
+            throw e;
         }
     }
 }
 
 
+async function hashPassword(input) {
+    return bcrypt.hash(input, 10);
+}
+
 function filterUserData(user) {
     return {
-        userId: user.userId,
+        userId: user.id,
         name: user.name,
         createdAt: user.created_at
     }

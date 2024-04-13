@@ -6,10 +6,6 @@ export default class ValidationError extends HttpStatusError {
         this.field = field
     }
 
-    get field() {
-        return this.field;
-    }
-
     get httpStatus() {
         return 422
     }
