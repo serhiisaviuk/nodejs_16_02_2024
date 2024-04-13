@@ -1,6 +1,6 @@
 import {Router} from "express";
 import UserService from "../service/UserService.js";
-import {checkCsrfTokenMiddleware} from "../middleware/csrfMiddleware.js";
+import {allow} from "../middleware/authMiddleware.js"
 
 export default class UserController extends Router {
     constructor() {
@@ -19,7 +19,7 @@ export default class UserController extends Router {
     init = () => {
         this.get("/", async (req, res) => {
             const users = {}
-                // await this.userService.getUsersPublicData();
+            // await this.userService.getUsersPublicData();
 
             res.render("users", {users, csrfToken: req.session.csrfToken});
         })
@@ -47,9 +47,15 @@ export default class UserController extends Router {
                 }
 
                 res.send({
-                    message: "Saved!"
+                    message: "Saved"
                 });
             })
+
+        this.delete("/:userId", allow("ADMIN"), (req, res) => {
+            this.userService.deleteById(req.params.userId)
+
+            res.json({message:"Deleted"});
+        });
 
 
         this.all("/", (req, res) => {

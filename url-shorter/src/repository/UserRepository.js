@@ -18,4 +18,8 @@ export default class UserRepository {
         })
     }
 
+    async deleteById(id){
+        return User.query().deleteById(id);
+    }
+
 }

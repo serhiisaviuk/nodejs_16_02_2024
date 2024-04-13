@@ -52,8 +52,19 @@ function authorizedInSessionMiddleware(req, res, next) {
     }
 }
 
+function allow(role) {
+    return (req, res, next) => {
+        if(req.session.user.role === role){
+            return next();
+        }
+
+        res.status(403).send();
+    }
+}
+
 export {
     authorizedInSessionMiddleware,
     basicAuthorizationMiddleware,
-    bearerAuthMiddleware
+    bearerAuthMiddleware,
+    allow
 }

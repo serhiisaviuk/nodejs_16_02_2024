@@ -9,7 +9,6 @@ export function up(knex) {
             table.string("email").unique();
             table.string("password");
             table.timestamp("created_at", {useTz: false}).defaultTo(knex.fn.now());
-            ;
         })
         .createTable(URL_SHORTER_TABLE, table => {
             table.increments("id").primary();

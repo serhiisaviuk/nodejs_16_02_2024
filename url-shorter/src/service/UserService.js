@@ -2,7 +2,9 @@ import UserRepository from "../repository/UserRepository.js";
 import Instance from "../helper/Instance.js";
 import * as bcrypt from "bcrypt";
 import ValidationError from "../error/ValidationError.js";
+import logger from "example-logger/lib/logger/logger.js";
 
+const log = logger.getLogger("UserService");
 
 export default class UserService extends Instance {
     constructor() {
@@ -55,6 +57,14 @@ export default class UserService extends Instance {
         }
 
         return false;
+    }
+
+    async deleteById(id){
+        try {
+            this.userRepository.deleteById(id);
+        } catch (e) {
+            log.error(e);
+        }
     }
 
 }
