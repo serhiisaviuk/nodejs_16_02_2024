@@ -2,9 +2,9 @@ import http from "http";
 
 import exampleLogger from "example-logger";
 
-import config from "config.js";
+import config from "./config.js";
 import webContext from "./webContext.js";
-import dbInit from "./postgres/client_knex.js";
+import dbInit from "./db/knex.js";
 
 const log = exampleLogger.getLogger("app.js");
 

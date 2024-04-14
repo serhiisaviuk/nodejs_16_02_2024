@@ -1,7 +1,7 @@
-import dbInit from "../src/postgres/client_knex.js";
+import dbInit from "../src/db/knex.js";
 
 const knex = dbInit({
-    client: 'sqlite3', // or 'better-sqlite3'
+    client: 'sqlite3',
     connection: {
         filename: ':memory:',
     },

@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import RedisStore from "connect-redis";
-import redisClient from "./redis/redisClient.js";
+import redisClient from "./db/redisClient.js";
 import {initCsrfTokenMiddleware} from "./middleware/csrfMiddleware.js";
 import LoginController from "./controller/LoginController.js";
 import {
