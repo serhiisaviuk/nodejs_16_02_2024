@@ -5,12 +5,15 @@ export function up(knex) {
 
     return knex.schema
         .createTable(USER_TABLE, table => {
+            console.log("Creating table:", USER_TABLE);
             table.increments("id").primary();
             table.string("email").unique();
             table.string("password");
             table.timestamp("created_at", {useTz: false}).defaultTo(knex.fn.now());
         })
         .createTable(URL_SHORTER_TABLE, table => {
+            console.log("Creating table:", URL_SHORTER_TABLE);
+
             table.increments("id").primary();
             table.string("code", 255).unique();
             table.string("url");

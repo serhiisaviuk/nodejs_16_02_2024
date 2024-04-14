@@ -72,11 +72,11 @@ function initErrorHandling(app) {
     app.use((err, req, res, next) => {
 
         if (err instanceof HttpStatusError) {
-            res.status(err.httpStatus())
+            res.status(err.httpStatus)
         }
 
         if (err instanceof ValidationError) {
-            return res.send(`Fields error: ${err.fields}`);
+            return res.send({error: err.message, field: err.field});
         }
 
         if (err instanceof Error && req.method === "POST") {
