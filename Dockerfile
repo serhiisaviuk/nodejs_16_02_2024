@@ -9,6 +9,4 @@ EXPOSE 3001
 ENV PORT=3001
 ENV HOSTNAME=0.0.0.0
 
-#ENTRYPOINT node ./url-shorter/app.js
-CMD ["npm", "run", "db:migration"]
-CMD ["node", "./url-shorter/src/app.js"]
+CMD ["npm ", "run", "prod-migration"]

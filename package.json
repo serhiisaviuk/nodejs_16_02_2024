@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon lesson6/app.js",
+    "prod": "node ./url-shorter/src/app.js",
+    "prod-migration": "npm run db:migration && npm run prod",
     "db:migration": "knex migrate:latest",
     "test": "node --experimental-vm-modules node_modules/jest-cli/bin/jest.js",
     "test-integration": "node --experimental-vm-modules node_modules/jest-cli/bin/jest.js --match=**.it.js"
