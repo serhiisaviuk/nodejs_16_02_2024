@@ -62,7 +62,11 @@ function initControllers(app) {
 
 function initViews(app) {
 
-    app.set("views", "./view");
+    const viewPath = new URL('./view/', import.meta.url).pathname;
+    console.log(viewPath);
+    app.set("views", viewPath);
+
+
     app.set("view engine", "ejs");
     app.use("/files", express.static("view"));
 
