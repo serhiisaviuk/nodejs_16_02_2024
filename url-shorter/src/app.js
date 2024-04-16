@@ -16,7 +16,7 @@ const app = webContext();
 // if (process.env.NODE_ENV !== 'production') {
     const httpServer = http.createServer(app);
     const server = httpServer.listen(config.port, () => {
-
+        log.info(`Server Started, port: http://127.0.0.1:${config.port}/`)
     });
 // } else {
 //     app.enable('trust proxy');

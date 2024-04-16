@@ -1,9 +1,8 @@
 import {createClient} from "redis";
-
-const redisUrl = "redis://@127.0.0.1:6380";
+import config from "../config.js";
 
 const redisClient = createClient({
-    url: redisUrl,
+    url: config.redisUrl,
 });
 
 redisClient.connect().catch(console.error);
