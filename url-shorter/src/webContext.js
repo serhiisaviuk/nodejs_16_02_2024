@@ -62,7 +62,7 @@ function initControllers(app) {
 
 function initViews(app) {
 
-    app.set("views", "view");
+    app.set("views", "./view");
     app.set("view engine", "ejs");
     app.use("/files", express.static("view"));
 
