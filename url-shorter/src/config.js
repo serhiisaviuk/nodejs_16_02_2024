@@ -7,5 +7,7 @@ export default {
             min: 2,
             max: 10
         }
-    }
+    },
+    port: process.env.PORT || 3001,
+    hostname: process.env.HOSTNAME || "127.0.0.1"
 }
